@@ -9,7 +9,7 @@ const GetUrl = () => {
     // link to shorten validation and error handling
     const noLink = toShorten.length === 0;
     const validUrl = (/(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g.test(toShorten));
-    const disAllowed = link.full_short_link;
+    const disAllowed = (/\bshrtco.de\b/.test(toShorten));
 
     const handleError = () => {
         setTimeout(() => (
@@ -45,7 +45,7 @@ const GetUrl = () => {
                 setTimeout(() => (
                     setErrorMsg('')
                 ), 5000)
-            } else if (!validUrl) {
+            } else if (!validUrl || disAllowed) {
                 setErrorMsg('Not a valid URL')
                 handleError()
             } else {
